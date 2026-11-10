@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #050a17;
+}
+
+body {
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scene {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  min-height: 100%;
+  overflow: hidden;
+  background: #050a17;
+  isolation: isolate;
+}
+
+.character-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 50%;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Keep the art cinematic while protecting contrast on bright displays. */
+.cinematic-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 48%, rgba(1, 5, 16, 0.34) 100%),
+    linear-gradient(180deg, rgba(2, 6, 18, 0.10), transparent 24%, transparent 78%, rgba(2, 6, 18, 0.16));
+}
+
+/* Phones: keep the full height of the character visible and crop the sides. */
+@media (max-width: 600px) and (orientation: portrait) {
+  .character-art {
+    object-position: center center;
+  }
+}
+
+/* Short landscape screens, including many phones. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .character-art {
+    object-position: center 48%;
+  }
+}
+
+/* Tablets and compact laptops. */
+@media (min-width: 601px) and (max-width: 1100px) {
+  .character-art {
+    object-position: center center;
+  }
+}
+
+/* Respect device safe areas and dynamic browser viewport sizing. */
+@supports (height: 100dvh) {
+  .scene {
+    height: 100dvh;
+  }
+}
+
+/* Optional accessibility: reduce motion when the OS requests it. */
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-shade {
+    transition: none;
+  }
+}
